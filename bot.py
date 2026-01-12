@@ -21,7 +21,7 @@ def reaction_to_pay(call: CallbackQuery):
         LabeledPrice("Shum bola",1000*100),
         LabeledPrice("Sehrli qalpoqcha",2000*100)]
     bot.send_invoice(chat_id,"Shum Bola","Kitob uchun tolov","shum_bola",PROVIDER_TOKEN,"UZS",prices,
-    photo_url="https://share.google/mjNNQuYfxdl6Hl0NF",need_phone_number=True,need_shipping_address=True,is_flexible=True)
+    photo_url="https://sunwords.com/wp-content/uploads/2025/12/Best-Books-of-2025-1000x500.png",need_phone_number=True,need_shipping_address=True,is_flexible=True)
 
 @bot.pre_checkout_query_handler(func=lambda query: True)
 def pre_checkout(query: PreCheckoutQuery):
@@ -29,6 +29,7 @@ def pre_checkout(query: PreCheckoutQuery):
 
 @bot.shipping_query_handler(func=lambda shipping_query: True)
 def ship(shipping_query: ShippingQuery):
+    print("Shipping keldi")
     shahar = ShippingOption("shahar","Shahar ichi")
     shahar.add_price(LabeledPrice("Shahar",1000 * 100 ))
     viloyat = ShippingOption("viloyat","Viloyat ichi")
@@ -40,7 +41,7 @@ def ship(shipping_query: ShippingQuery):
     bot.answer_shipping_query(shipping_query.id,ok = True,shipping_options=ship_prices)
     
 
-bot.message_handler(content_types=["successful_payment"])
+@bot.message_handler(content_types=["successful_payment"])
 def reaction_to_payment(message:Message):
     chat_id = message.chat.id
     payment = message.successful_payment
